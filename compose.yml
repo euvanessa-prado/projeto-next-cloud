@@ -7,7 +7,7 @@ services:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
     ports:
-      - 80:80
+      - 3001:80
     restart: always
     volumes:
       - nc_data:/var/www/html

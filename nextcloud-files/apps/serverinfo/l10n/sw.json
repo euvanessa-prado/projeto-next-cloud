@@ -1,0 +1,9 @@
+{ "translations": {
+    "Copied!" : "Copied!",
+    "System" : "Mfumo",
+    "Network" : "Network",
+    "Shares" : "Shiriki",
+    "Database" : "Kanzidata",
+    "Copy" : "Nakili"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
