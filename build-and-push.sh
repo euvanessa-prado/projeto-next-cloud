@@ -1,26 +1,15 @@
 #!/bin/bash
 
-# Configurações
-AWS_REGION="us-east-1"
-ECR_REPOSITORY="next-cloud"
-IMAGE_TAG="latest"
+# Edite aqui seu profile AWS se necessário
+PROFILE="bia"
 
-# Obter account ID da AWS
-AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+echo "🔍 Verificando profile AWS..."
+aws sts get-caller-identity --profile $PROFILE
 
-# URI completa do ECR
-ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}"
+aws ecr get-login-password --profile $PROFILE --region us-east-1 | docker login --username AWS --password-stdin 448522291635.dkr.ecr.us-east-1.amazonaws.com
 
-echo "Building Docker image..."
-docker build -t ${ECR_REPOSITORY}:${IMAGE_TAG} .
+docker build -t next-cloud .
 
-echo "Tagging image for ECR..."
-docker tag ${ECR_REPOSITORY}:${IMAGE_TAG} ${ECR_URI}:${IMAGE_TAG}
+docker tag next-cloud:latest 448522291635.dkr.ecr.us-east-1.amazonaws.com/next-cloud:latest
 
-echo "Logging into ECR..."
-aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_URI}
-
-echo "Pushing image to ECR..."
-docker push ${ECR_URI}:${IMAGE_TAG}
-
-echo "Image pushed successfully to: ${ECR_URI}:${IMAGE_TAG}"
+docker push 448522291635.dkr.ecr.us-east-1.amazonaws.com/next-cloud:latest
